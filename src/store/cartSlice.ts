@@ -52,6 +52,9 @@ export const cartSlice = createSlice({
 });
 
 export const { addItem,removeItem,deleteItem } = cartSlice.actions;
+export const selectCartItems=(state:RootState)=>{
+  return state.cart.items;
+}
 
 export const selectItemQuantity= (item:Pizza)=>{
 
