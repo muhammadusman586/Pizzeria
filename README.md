@@ -1,3 +1,1 @@
-
-
-#This is real time Pizza Ordering Web App
+This is real time Pizza Ordering Web App
