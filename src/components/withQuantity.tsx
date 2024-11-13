@@ -1,4 +1,4 @@
-import { Component, ComponentType, FC } from "react";
+import {  ComponentType, FC } from "react";
 import { Pizza } from "../data/menu-items";
 import { MenuItemProps } from "./MenuItem";
 import { useAppSelector } from "../store/hooks";
