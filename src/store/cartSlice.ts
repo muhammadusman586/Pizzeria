@@ -2,6 +2,8 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Pizza } from "../data/menu-items";
 import { RootState } from "./store";
 import { formatPrice } from "../utils/price-utils";
+import { persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
 // import { RootState } from "@reduxjs/toolkit/query";
 
 export type CartItem = Pizza & {
@@ -47,11 +49,14 @@ export const cartSlice = createSlice({
     deleteItem: (state, action:PayloadAction<Pizza>)=>{
 
       state.items=state.items.filter((item)=> item.id!==action.payload.id);
+    },
+    resetCart:(state)=>{
+      state.items=[];
     }
   },
 });
 
-export const { addItem,removeItem,deleteItem } = cartSlice.actions;
+export const { addItem,removeItem,deleteItem,resetCart } = cartSlice.actions;
 export const selectCartItems=(state:RootState)=>{
   return state.cart.items;
 }
@@ -82,5 +87,13 @@ export const selectCartTotal = (state:RootState)=>{
   return formatPrice(total);
 }
 
-const cartReducer = cartSlice.reducer;
-export default cartReducer;
+ const cartReducer = cartSlice.reducer;
+// export default cartReducer;
+
+
+export default persistReducer({
+  key:'cart',
+  storage
+},cartReducer)
+
+
