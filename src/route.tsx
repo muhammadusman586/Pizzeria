@@ -8,7 +8,7 @@ import OrderNotFound from "./pages/OrderNotFound";
 import Menu from "./pages/Menu";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
-import Order from "./pages/Order";
+import Order, { orderLoader } from "./pages/Order";
 import RootLayout from "./pages/RootLayout";
 
 const router = createBrowserRouter(
@@ -23,7 +23,7 @@ const router = createBrowserRouter(
       ,<Route path="/menu" element={<Menu />}></Route>,
       <Route path="/cart" element={<Cart />}></Route>,
       <Route path="/checkout" element={<Checkout />}></Route>,
-      <Route path="/order/:orderId" element={<Order />}></Route>]
+      <Route errorElement={<OrderNotFound/>} loader={orderLoader} path="/order/:orderId" element={<Order />}></Route>]
     </Route>,
   ])
 );

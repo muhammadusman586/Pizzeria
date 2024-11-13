@@ -1,19 +1,19 @@
 import { FC } from "react";
-import { Pizza } from "../data/menu-items";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { useAppDispatch,  } from "../store/hooks";
 import {
   addItem,
+  CartItem,
   deleteItem,
   removeItem,
-  selectItemQuantity,
+  
 } from "../store/cartSlice";
 
-type MenuItemProps = {
-  item: Pizza;
+ export type MenuItemProps = {
+  item: CartItem;
   readonly?: boolean;
 };
 const MenuItem: FC<MenuItemProps> = ({ item, readonly }) => {
-  const quantity = useAppSelector(selectItemQuantity(item));
+  const quantity = item.quantity ;
   const dispatch = useAppDispatch();
   return (
     <div className="card px-4 card-side bg-base-300 shadow-xl">
@@ -25,7 +25,7 @@ const MenuItem: FC<MenuItemProps> = ({ item, readonly }) => {
         <div>{item.ingredients.join(", ")}</div>
         <div className={`card-actions justify-between items-end`}>
           <b className="font-semibold">€{item.price}</b>
-          {quantity === 0 ? (
+          {quantity === 0  && !readonly? (
             <button
               className="btn btn-primary"
               onClick={() => dispatch(addItem(item))}

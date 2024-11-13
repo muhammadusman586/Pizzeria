@@ -1,36 +1,49 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 // import { useSelector } from "react-redux";
 import { useAppSelector } from "../store/hooks";
-import {  selectCartTotal, selectPizzaCount } from "../store/cartSlice";
+import { selectCartTotal, selectPizzaCount } from "../store/cartSlice";
 
 const Header = () => {
   const [isFocused, setIsFocused] = useState(false);
-  const pizzaCount=useAppSelector(selectPizzaCount);
-  const cartTotal=useAppSelector(selectCartTotal);
+  const pizzaCount = useAppSelector(selectPizzaCount);
+  const cartTotal = useAppSelector(selectCartTotal);
+  const [orderId, setOrderId] = useState("");
+  const navigate = useNavigate();
   return (
-    <div className="navbar bg-primary text-base-100 sticky top-0 z-40 gap-4">
+    <div className="navbar bg-teal-950  sticky top-0 z-40 gap-4">
       <Link to={"/"} className="btn btn-ghost text-xl">
         Pizzeria
       </Link>
-      <form className="flex-1 flex justify-end">
+      <form
+        onSubmit={(ev) => {
+          ev.preventDefault();
+          navigate(`/order/${orderId}`);
+          setOrderId('');
+        }}
+        className="flex-1 flex justify-end"
+      >
         <input
           name="orderId"
           required
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
+          onChange={(ev) => {
+            setOrderId(ev.target.value);
+          }}
+          value={orderId}
           type="text"
           placeholder={isFocused ? "Enter order#" : "Find your order"}
           className="input text-neutral-100 input-bordered w-full md:w-auto"
         />
       </form>
       <div className="flex-none">
-       {
-        cartTotal ?  <div className="font-semibold gap-1 flex">
-        <span className="hidden md:flex">Cart total: </span>
-        <span>€{cartTotal}</span>{" "}
-      </div> : null
-       }
+        {cartTotal ? (
+          <div className="font-semibold gap-1 flex">
+            <span className="hidden md:flex">Cart total: </span>
+            <span>€{cartTotal}</span>{" "}
+          </div>
+        ) : null}
         <Link
           to="/cart"
           tabIndex={0}
